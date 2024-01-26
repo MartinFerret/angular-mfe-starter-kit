@@ -1,27 +1,111 @@
-# MfeDemo
+# Simple micro front-end
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.8.
+---------------------------------------------------------------------------------------------------------
 
-## Development server
+🚀 Angular 17.0.0 \
+👌 Module federation 17.0.1
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+![Architecture of mfe](/assets/mfe-shema.png)
 
-## Code scaffolding
+## Run this project.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Install dependencies : `npm install`
 
-## Build
+- Launch the mfe1 application : `ng serve mfe1`
+- Launch the shell application `ng serve shell`
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+⚠️ NOTE : The remote entry must always be launched before it's host.
 
-## Running unit tests
+## Explanations on how it's benn build.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+---------------------------------------------------------------------------------------------------------
 
-## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### Step 1 : Create the workspace
 
-## Further help
+---------------------------------------------------------------------------------------------------------
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+In order to start from scratch, build a new workspace to work in. I've chose to use a raw one, but TurboRepo or Nx should be used here.
+
+```bash
+ng new mfe-demo --create-application=false
+cd mfe-demo
+```
+
+The __--create-application=false__ flag tell angular to build a raw project as we'll be working from the inside with multiple apps.
+
+### Step 2 : Angular architects module federation
+
+---------------------------------------------------------------------------------------------------------
+
+Put in your terminal the following :
+
+```
+ng add @angular-architects/module-federation --project shell --port 4200
+ng add @angular-architects/module-federation --project mfe1 --port 4300
+```
+
+Here above, we are stating that we'll have :
+
+- shell will be our hosting app, running on port 4200.
+- mfe1 will be our remote app, running on port 4300.
+
+After throwing theses commands you should be able to see that some files have been created - updated :
+
+- CREATED webpack.config.js
+- CREATED webpack.prod.config.js
+- CREATED bootstrap.ts
+- UPDATED angular.json
+- UPDATED main.ts
+
+### Step 3 : Configure your components / modules at your convenience
+
+---------------------------------------------------------------------------------------------------------
+
+`ng g component <component-name>` in order to create a component
+`ng g module <module-name>` in order to create a module
+
+### Step 4 : Configure our remote entry & host
+
+In each project, we have a webpack.config.ts in which we can state the host and remote entry.
+
+1) To configure our remote, we have some mandatory parameters:
+
+- name : Name of the remote
+- fileName: The name of our remote entry file
+- exposes : That one will give the permission for a module/component to be exposed
+
+Example :
+
+```
+name: "mfe1",
+filename: "mfe1RemoteEntry.js",
+exposes: {
+  './TodoModule': './projects/mfe1/src/app/todo/todo.module.ts',
+}
+```
+
+2) To configure our shell, we have a mandatory parameter as well :
+- remotes : Takes the remote's name, and its entry file.
+
+Example :
+
+```
+remotes: {
+  "mfe1": "http://localhost:4300/mfe1RemoteEntry.js",
+},
+```
+
+### Step 5 : You're up !
+
+---------------------------------------------------------------------------------------------------------
+
+Now, run your apps and integrate them.
+
+### Packages
+
+---------------------------------------------------------------------------------------------------------
+
+- Angular architects module federation [here](https://www.npmjs.com/package/@angular-architects/module-federation)
+
+

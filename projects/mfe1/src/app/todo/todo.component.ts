@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, signal} from '@angular/core';
 
 @Component({
   selector: 'app-todo',
@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './todo.component.scss'
 })
 export class TodoComponent {
-
+  title = signal('👋 from mfe1');
 }

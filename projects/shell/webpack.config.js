@@ -38,7 +38,6 @@ module.exports = {
         // For hosts (please adjust)
          remotes: {
            "mfe1": "http://localhost:4300/mfe1RemoteEntry.js",
-
          },
 
         shared: share({

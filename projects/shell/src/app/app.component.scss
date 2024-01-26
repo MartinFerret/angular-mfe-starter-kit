@@ -1,7 +1,7 @@
 h1 {
   text-align: center;
   margin-top: 50px;
-  font-size: 50px;
+  font-size: 60px;
 }
 
 .buttons {
@@ -19,6 +19,7 @@ h1 {
   font-weight: 600;
   cursor: pointer;
   transition: .2s ease-in-out;
+
   &:hover {
     color: #8a307f;
     background-color: white;
@@ -38,6 +39,7 @@ h1 {
   font-weight: 600;
   cursor: pointer;
   transition: .2s ease-in-out;
+
   &:hover {
     color: white;
     background-color: #8a307f;
