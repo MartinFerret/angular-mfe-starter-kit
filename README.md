@@ -11,10 +11,8 @@
 
 Install dependencies : `npm install`
 
-- Launch the mfe1 application : `ng serve mfe1`
-- Launch the shell application `ng serve shell`
-
-⚠️ NOTE : The remote entry must always be launched before it's host.
+- Launch the servers by running `npm run all`
+- Build the library to use the shared component : `ng build --c=production shared-library`
 
 ## Explanations on how it's benn build.
 
